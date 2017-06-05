@@ -17,3 +17,6 @@
 *.sln
 *.VC.opendb
 
+BattleTank/ExternalAssets/BattleTankHeighMap.png
+BattleTank/Content/BattleGround.umap
+BattleTank/Content/BattleGround_BuiltData.uasset
