@@ -6,7 +6,10 @@
 */DerivedDataCache
 */Intermediate/
 */Saved
-
+*/Content/StarterContent/
+BattleTank/ExternalAssets/BattleTankHeighMap.png
+BattleTank/Content/BattleGround.umap
+BattleTank/Content/BattleGround_BuiltData.uasset
 
 ###############################
 #Visual Studio generated files#
@@ -17,6 +20,4 @@
 *.sln
 *.VC.opendb
 
-BattleTank/ExternalAssets/BattleTankHeighMap.png
-BattleTank/Content/BattleGround.umap
-BattleTank/Content/BattleGround_BuiltData.uasset
+
