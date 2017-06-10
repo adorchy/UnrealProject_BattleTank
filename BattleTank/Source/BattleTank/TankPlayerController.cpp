@@ -25,11 +25,15 @@ void ATankPlayerController::BeginPlay() {
 		UE_LOG(LogTemp, Warning, TEXT("you are controlling %s!"), *ControlledTank->GetName());
 	}
 	ComputeCrossHairPosition();
+	
+		
+
 }
 
 // Called every frame
 void ATankPlayerController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
+	ComputeViewPointDirection();
 
 }
 
@@ -45,7 +49,6 @@ firt third part of Viewport's height (Y)
 OUTPUT: crossHairPositionX and crossHairPositionY
 */
 void ATankPlayerController::ComputeCrossHairPosition() {
-
 	int32  ViewportSizeX=0, ViewportSizeY=0;
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 	crossHairPositionX = ViewportSizeX*0.5;
@@ -54,10 +57,22 @@ void ATankPlayerController::ComputeCrossHairPosition() {
 }
 
 
+
+/*
+PURPOSE: Compute ViewPointDirection, used to compute the End location of the ray 
+OUTPUT: ViewPointDirection
+*/
 void ATankPlayerController::ComputeViewPointDirection() {
-
-
-
+	FVector WorldLocation;
+	if (DeprojectScreenPositionToWorld
+	(
+		crossHairPositionX,
+		crossHairPositionY,
+		WorldLocation,
+		ViewPointDirection
+	)) {
+		UE_LOG(LogTemp, Warning, TEXT("View point direction: %s"), *ViewPointDirection.ToString());
+	}
 }
 
 
