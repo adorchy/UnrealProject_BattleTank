@@ -7,7 +7,7 @@
 #include "TankPlayerController.generated.h"
 
 /**
- * 
+ * Allow the player to aim at terrain and actors.
  */
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController

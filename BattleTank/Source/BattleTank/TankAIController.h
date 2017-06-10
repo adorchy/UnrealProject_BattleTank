@@ -19,13 +19,16 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	virtual void Tick(float DeltaTime) override; // Called every frame
 	ATankAIController();
 	ATank* GetControlledTank() const;
 	ATank* GetPlayerTank() const;
+	void GetPlayerTankLocation();
 
 private:
-	ATank* ControlledTank;
-	ATank* PlayerTank;
+	ATank* controlledTank;
+	ATank* playerTank;
+	FVector playerTankLocation;
 	
 	
 };

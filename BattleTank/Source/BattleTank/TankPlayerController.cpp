@@ -33,9 +33,11 @@ void ATankPlayerController::BeginPlay() {
 // Called every frame
 void ATankPlayerController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
+
 	if (LineTrace() == true) {
-		UE_LOG(LogTemp, Warning, TEXT("Actor found: %s!"), *hitResult.GetActor()->GetName());
-		UE_LOG(LogTemp, Warning, TEXT("Actor found: %s!"), *hitResult.GetActor()->GetActorLocation().ToString());
+		if (ControlledTank) {
+			GetControlledTank()->AimAt(hitResult);
+		}
 	}
 	
 }
