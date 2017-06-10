@@ -20,9 +20,21 @@ protected:
 
 public:
 	ATankPlayerController();
+	virtual void Tick(float DeltaTime) override; // Called every frame
 	ATank* GetControlledTank() const;
+	void ComputeCrossHairPosition();
+	void ComputeViewPointDirection();
+	void ComputeReachLineEnd();
+	void DrawRedDebugLineFromPawn();
+	void AimTowardsCrossHair();
+
 	
 private:
 	ATank* ControlledTank;
-
+	FVector ViewPointLocation;
+	FVector ViewPointDirection;
+	FVector LineTraceEnd;
+	float reach;
+	float crossHairPositionX;
+	float crossHairPositionY;
 };
