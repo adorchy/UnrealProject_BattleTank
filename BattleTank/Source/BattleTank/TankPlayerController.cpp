@@ -10,9 +10,9 @@ ATankPlayerController::ATankPlayerController() {
 	ViewPointLocation = { 0.0,0.0,0.0 };
 	ViewPointDirection = { 0.0,0.0,0.0 };
 	LineTraceEnd = { 0.0,0.0,0.0 };
-	reach= 6000;
 	crossHairPositionX=0.0;
 	crossHairPositionY=0.0;
+	lineTraceRange = 1000000.0;
 	
 }
 
@@ -33,15 +33,17 @@ void ATankPlayerController::BeginPlay() {
 // Called every frame
 void ATankPlayerController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
-	ComputeViewPointDirection();
-
+	if (LineTrace() == true) {
+		UE_LOG(LogTemp, Warning, TEXT("Actor found: %s!"), *hitResult.GetActor()->GetName());
+		UE_LOG(LogTemp, Warning, TEXT("Actor found: %s!"), *hitResult.GetActor()->GetActorLocation().ToString());
+	}
+	
 }
 
 ATank* ATankPlayerController::GetControlledTank() const {
 
 	return Cast <ATank>(GetPawn());
 }
-
 
 /*
 PURPOSE: Compute crossHair Position, in our case, crossHair is positionned middle of Viewport's width (X) and 
@@ -53,10 +55,8 @@ void ATankPlayerController::ComputeCrossHairPosition() {
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 	crossHairPositionX = ViewportSizeX*0.5;
 	crossHairPositionY = ViewportSizeY*0.3333;
-	UE_LOG(LogTemp, Warning, TEXT("CrossHair position, X: %f, Y: %f"), crossHairPositionX, crossHairPositionY);
+	// UE_LOG(LogTemp, Warning, TEXT("CrossHair position, X: %f, Y: %f"), crossHairPositionX, crossHairPositionY);
 }
-
-
 
 /*
 PURPOSE: Compute ViewPointDirection, used to compute the End location of the ray 
@@ -64,23 +64,56 @@ OUTPUT: ViewPointDirection
 */
 void ATankPlayerController::ComputeViewPointDirection() {
 	FVector WorldLocation;
-	if (DeprojectScreenPositionToWorld
+	DeprojectScreenPositionToWorld
 	(
 		crossHairPositionX,
 		crossHairPositionY,
 		WorldLocation,
-		ViewPointDirection
-	)) {
-		UE_LOG(LogTemp, Warning, TEXT("View point direction: %s"), *ViewPointDirection.ToString());
+		OUT ViewPointDirection
+	);
+	ViewPointDirection*=lineTraceRange;
+	// UE_LOG(LogTemp, Warning, TEXT("View point direction: %s"), *ViewPointDirection.ToString());
+}
+
+/*
+PURPOSE: Compute ViewPointLocation, used to compute the End location of the ray
+OUTPUT: ViewPointLocation
+*/
+void ATankPlayerController::ComputeViewPointLocation() {
+	ViewPointLocation=PlayerCameraManager->GetCameraLocation();
+}
+
+/*
+PURPOSE: Compute LineTraceEnd, used to trace a ray against the world 
+OUTPUT: LineTraceEnd
+*/
+void ATankPlayerController::ComputeLineTraceEnd() {
+	ComputeViewPointDirection();
+	ComputeViewPointLocation();
+	LineTraceEnd = ViewPointDirection + ViewPointLocation;
+}
+
+/*
+PURPOSE: Trace a ray against the world using a specific channel and return the first blocking hit 
+OUTPUT: hitResult
+*/
+bool ATankPlayerController::LineTrace() {
+	ComputeLineTraceEnd();
+	if (GetWorld()->LineTraceSingleByChannel(
+		OUT hitResult,
+		ViewPointLocation,
+		LineTraceEnd,
+		ECollisionChannel::ECC_Visibility
+	) == true) {
+		return true;
 	}
+	return false;
 }
 
-
-void ATankPlayerController::ComputeReachLineEnd() {
-
-}
-
-void ATankPlayerController::DrawRedDebugLineFromPawn() {
+/*
+PURPOSE: Debug Tool, check if ViewPointLocation and LineTraceEnd are computed correctly
+*/
+void ATankPlayerController::DrawRedDebugLineFromCrossHair() {
 	DrawDebugLine(GetWorld(), ViewPointLocation, LineTraceEnd, FColor(255, 0, 0), false, 0.0, 0.0, 10.0);
 }
 

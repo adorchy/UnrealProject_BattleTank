@@ -24,8 +24,10 @@ public:
 	ATank* GetControlledTank() const;
 	void ComputeCrossHairPosition();
 	void ComputeViewPointDirection();
-	void ComputeReachLineEnd();
-	void DrawRedDebugLineFromPawn();
+	void ComputeViewPointLocation();
+	void ComputeLineTraceEnd();
+	bool LineTrace();
+	void DrawRedDebugLineFromCrossHair();
 	void AimTowardsCrossHair();
 
 	
@@ -34,7 +36,8 @@ private:
 	FVector ViewPointLocation;
 	FVector ViewPointDirection;
 	FVector LineTraceEnd;
-	float reach;
 	float crossHairPositionX;
 	float crossHairPositionY;
+	float lineTraceRange;
+	FHitResult hitResult;
 };
