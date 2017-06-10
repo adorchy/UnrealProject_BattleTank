@@ -50,9 +50,7 @@ void ATankAIController::GetPlayerTankLocation() {
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("AI has found player tank: %s!"), *playerTank->GetName());
 		playerTankLocation = playerTank->GetTargetLocation();
-		UE_LOG(LogTemp, Warning, TEXT(" AI is aiming at player Tank: %s!"), *playerTankLocation.ToString());
-
+		controlledTank->AimAt(playerTankLocation);
 	}
-
 }
 

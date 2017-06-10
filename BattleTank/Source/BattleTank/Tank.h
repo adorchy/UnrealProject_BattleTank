@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "AimingComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
@@ -18,6 +19,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UAimingComponent* TankAimingComponent;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -27,6 +30,6 @@ public:
 
 public:
 
-	void AimAt(FHitResult hitResult);
+	void AimAt(FVector hitLocation);
 	
 };

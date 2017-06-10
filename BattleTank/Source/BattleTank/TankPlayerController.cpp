@@ -36,10 +36,9 @@ void ATankPlayerController::Tick(float DeltaTime) {
 
 	if (LineTrace() == true) {
 		if (ControlledTank) {
-			GetControlledTank()->AimAt(hitResult);
+			GetControlledTank()->AimAt(hitResult.Location);
 		}
-	}
-	
+	}	
 }
 
 ATank* ATankPlayerController::GetControlledTank() const {
