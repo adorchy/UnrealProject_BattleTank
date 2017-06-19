@@ -10,6 +10,7 @@ UAimingComponent::UAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+	Barrel = nullptr;
 
 	// ...
 }
@@ -34,4 +35,11 @@ void UAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 }
 
 
+void UAimingComponent::AimAt(FVector hitLocation) {
+	UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s!"), *GetOwner()->GetName(), *hitLocation.ToString(), *Barrel->GetComponentLocation().ToString());
+}
 
+
+void UAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet) {
+	Barrel = BarrelToSet;
+}

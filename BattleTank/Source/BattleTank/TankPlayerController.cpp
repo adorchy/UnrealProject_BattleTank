@@ -16,6 +16,7 @@ ATankPlayerController::ATankPlayerController() {
 	
 }
 
+// Called when the game starts
 void ATankPlayerController::BeginPlay() {
 	Super::BeginPlay();
 	ControlledTank=GetControlledTank();
@@ -25,9 +26,6 @@ void ATankPlayerController::BeginPlay() {
 		UE_LOG(LogTemp, Warning, TEXT("you are controlling %s!"), *ControlledTank->GetName());
 	}
 	ComputeCrossHairPosition();
-	
-		
-
 }
 
 // Called every frame
@@ -118,10 +116,4 @@ void ATankPlayerController::DrawRedDebugLineFromCrossHair() {
 	DrawDebugLine(GetWorld(), ViewPointLocation, LineTraceEnd, FColor(255, 0, 0), false, 0.0, 0.0, 10.0);
 }
 
-void ATankPlayerController::AimTowardsCrossHair() {
-
-	if (ControlledTank) {
-
-	}
-}
 

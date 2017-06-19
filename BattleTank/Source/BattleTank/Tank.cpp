@@ -9,7 +9,7 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	TankAimingComponent = CreateDefaultSubobject<UAimingComponent>(FName ("Aiming Component"));
+	TankAimingComponent = CreateDefaultSubobject<UAimingComponent>(FName ("Aiming Component")); // add the UAiming component class to the tank bluebrint class.
 
 }
 
@@ -36,10 +36,14 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector hitLocation)
 {
-	auto ourTank = GetName();
+	TankAimingComponent->AimAt(hitLocation);
 	//UE_LOG(LogTemp, Warning, TEXT("%s Aiming at actor: %s!"), *ourTank, *hitResult.GetActor()->GetName());
 	//UE_LOG(LogTemp, Warning, TEXT("%s Aiming at actor: %s!"), *ourTank, *hitResult.GetActor()->GetTargetLocation().ToString());
-	UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s!"), *ourTank, *hitLocation.ToString());
+}
+
+void ATank::SetBarrelReference(UStaticMeshComponent* BarrelToSet) {
+	TankAimingComponent->SetBarrelReference(BarrelToSet);
+
 
 }
 
