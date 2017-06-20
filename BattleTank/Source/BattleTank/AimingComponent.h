@@ -25,11 +25,14 @@ public:
 
 public:
 
-	void AimAt(FVector hitLocation);
+	void AimAt(FVector hitLocation, float launchSpeed);
 	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 
 private:
 
 	UStaticMeshComponent* Barrel; 
+	FVector launchVelocity;
+	FVector projectileStartLocation;
+
 	
 };

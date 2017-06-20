@@ -34,7 +34,7 @@ void ATankPlayerController::Tick(float DeltaTime) {
 
 	if (LineTrace() == true) {
 		if (ControlledTank) {
-			GetControlledTank()->AimAt(hitResult.Location);
+			GetControlledTank()->AimAt(hitResult.Location); // AimAt is a procedure declared in Tank.h
 		}
 	}	
 }

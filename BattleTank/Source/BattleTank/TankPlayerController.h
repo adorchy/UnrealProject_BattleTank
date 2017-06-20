@@ -1,4 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/* 
+
+Class TankPlayerController, rely on "Tank" class and used by TankPlayerController_BP as parent class. 
+Used to compute the coordinates of the location aimed by the crosshair.
+It uses the procedure "AimAt" declared in Tank.h.
+OUPUT: hitResult
+
+*/ 
 
 #pragma once
 
@@ -6,9 +13,7 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
-/**
- * Allow the player to aim at terrain and actors.
- */
+
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
 {
@@ -28,7 +33,6 @@ public:
 	void ComputeLineTraceEnd();
 	bool LineTrace();
 	void DrawRedDebugLineFromCrossHair();
-	void AimTowardsCrossHair();
 
 	
 private:

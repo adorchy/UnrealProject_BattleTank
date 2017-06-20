@@ -1,4 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/*
+
+Class Tank, uses the class AimingComponent and is used by Tank_BP as parent class.
+Ensure the link Between the classes AimingComponent and the Controller classes.
+OUPUT: hitResult
+
+*/
 
 #pragma once
 
@@ -19,8 +25,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UAimingComponent* TankAimingComponent;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -28,10 +32,13 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-public:
-
-	void AimAt(FVector hitLocation);
+	void AimAt(FVector hitLocation); // used by TankAIController.h and TankPlayerController.h rely on the procedure AimAt declared in AimingComponent.h.
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+	void SetBarrelReference(UStaticMeshComponent* BarrelToSet); // used in Tank_BP
 	
+protected:
+	UAimingComponent* TankAimingComponent;
+	UPROPERTY(EditAnywhere)
+		float launchSpeed = 100000; // speed of 1000 m/s TODO: find sensible value
+
 };
