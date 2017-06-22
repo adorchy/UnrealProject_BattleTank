@@ -39,6 +39,6 @@ public:
 protected:
 	UAimingComponent* TankAimingComponent;
 	UPROPERTY(EditAnywhere)
-		float launchSpeed = 100000; // speed of 1000 m/s TODO: find sensible value
+	float launchSpeed = 100000; // speed of 1000 m/s TODO: find sensible value
 
 };

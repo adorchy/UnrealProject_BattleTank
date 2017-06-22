@@ -13,7 +13,7 @@ UAimingComponent::UAimingComponent()
 	Barrel = nullptr;
 	launchVelocity = {0.0, 0.0, 0.0};
 	projectileStartLocation = { 0.0, 0.0, 0.0 };
-
+	collisionRadius = 0.0;
 
 }
 
@@ -40,14 +40,37 @@ void UAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 	
 	if (Barrel) {
-		UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s!"), *GetOwner()->GetName(), *hitLocation.ToString(), *Barrel->GetComponentLocation().ToString());
 		projectileStartLocation = Barrel->GetSocketLocation(FName("Muzzle"));
-
-
-		// UE_LOG(LogTemp, Warning, TEXT("Launch speed: %f!"), launchSpeed);
+		// UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s!"), *GetOwner()->GetName(), *hitLocation.ToString(), *Barrel->GetComponentLocation().ToString());
+		
+		if (UGameplayStatics::SuggestProjectileVelocity
+		(
+			this,
+			OUT launchVelocity,
+			projectileStartLocation,
+			hitLocation,
+			launchSpeed,
+			false,
+			collisionRadius,
+			0.0,
+			ESuggestProjVelocityTraceOption::DoNotTrace
+		) == true) 
+		
+		{
+			auto AimDirection = launchVelocity.GetSafeNormal(); // Gets a normalized copy of the vector
+			UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s!"), *GetOwner()->GetName(), *AimDirection.ToString(), *Barrel->GetComponentLocation().ToString());
+		}
+		else 
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Error with function SuggestProjectileVelocity in AimingComponent.ccp, wrong arguments used"));
+		}
+	}
+	else 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Error no Barrel found, check Tank_BP:Imput Setup"));
 	}
 
-
+	
 	
 	
 }

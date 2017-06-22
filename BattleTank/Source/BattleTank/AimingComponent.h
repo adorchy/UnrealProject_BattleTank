@@ -33,6 +33,8 @@ private:
 	UStaticMeshComponent* Barrel; 
 	FVector launchVelocity;
 	FVector projectileStartLocation;
+	float collisionRadius;
+
 
 	
 };
