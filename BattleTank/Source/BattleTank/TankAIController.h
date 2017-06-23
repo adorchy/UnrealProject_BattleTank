@@ -1,18 +1,16 @@
-/*
-
-Class TankAIController, rely on "Tank" class.
-Used to compute the coordinates of the location of the tank controlled by the player.
-It uses the procedure "AimAt" declared in Tank.h.
-OUPUT: playerTankLocation
-
-*/
+// Copyright Arnaud D_ORCHYMONT
 
 #pragma once
 
 #include "Tank.h"
 #include "AIController.h"
 #include "TankAIController.generated.h"
-
+/*
+Class TankAIController, rely on "Tank" class.
+Used to compute the coordinates of the location of the tank controlled by the player.
+It uses the procedure "AimAt" declared in Tank.h.
+OUPUT: playerTankLocation
+*/
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
