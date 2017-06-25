@@ -57,8 +57,7 @@ void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 			auto AimDirection = launchVelocity.GetSafeNormal(); // Gets a normalized copy of the vector
 			UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s!"), *GetOwner()->GetName(), *AimDirection.ToString(), *Barrel->GetComponentLocation().ToString());
 			*/ 
-			MoveBarrel();
-			MoveTurret();
+			MoveBarrelAndTurret();
 		}
 		else 
 		{
@@ -70,31 +69,31 @@ void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 	}
 }
 
-// used in Tank_BP
+// used in Tank_BP and in tank.cpp
 void UAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
-	Barrel = BarrelToSet;
+	if (BarrelToSet != nullptr) {
+		Barrel = BarrelToSet;
+	}
+	
 }
 
-// used in Tank_BP
+// used in Tank_BP and in tank.cpp
 void UAimingComponent::SetTurretReference(UTankTurret* TurrelToSet) {
-	Turret = TurrelToSet;
+	if (TurrelToSet != nullptr) {
+		Turret = TurrelToSet;
+	}
+	
 
 }
 
-void UAimingComponent::MoveBarrel() {
+void UAimingComponent::MoveBarrelAndTurret() {
 	
 	/* Work-out difference between current barrel direction and aim direction*/
 	FRotator barrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator aimRotator = launchVelocity.Rotation();
 	FRotator deltaRotator = aimRotator - barrelRotator;
 	Barrel->elevateBarrel(deltaRotator.Pitch);
-
-}
-
-void UAimingComponent::MoveTurret() {
-	FRotator turretRotator = Turret->GetForwardVector().Rotation();
-	FRotator aimRotator = launchVelocity.Rotation();
-	FRotator deltaRotator = aimRotator- turretRotator;
 	Turret->rotateTurret(deltaRotator.Yaw);
 
 }
+

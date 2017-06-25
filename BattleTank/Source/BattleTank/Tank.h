@@ -38,6 +38,8 @@ public:
 	void SetBarrelReference(UTankBarrel* BarrelToSet); // used in Tank_BP
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurrelToSet); // used in Tank_BP
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	void Fire();
 	
 protected:
 	UAimingComponent* TankAimingComponent;
