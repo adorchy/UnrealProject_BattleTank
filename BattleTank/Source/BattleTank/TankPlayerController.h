@@ -2,9 +2,11 @@
 
 #pragma once
 
-#include "Tank.h"
+
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
+
+class ATank;
 
 /*
 Class TankPlayerController, rely on "Tank" class and used by TankPlayerController_BP as parent class.

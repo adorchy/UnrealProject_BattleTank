@@ -2,9 +2,12 @@
 
 #pragma once
 
-#include "Tank.h"
+
 #include "AIController.h"
 #include "TankAIController.generated.h"
+
+class ATank;
+
 /*
 Class TankAIController, rely on "Tank" class.
 Used to compute the coordinates of the location of the tank controlled by the player.

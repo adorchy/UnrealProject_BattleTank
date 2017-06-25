@@ -2,9 +2,11 @@
 
 #pragma once
 
-#include "AimingComponent.h"
+
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
+
+class UAimingComponent;
 
 /*
 Class Tank, uses the class AimingComponent and is used by Tank_BP as parent class.
@@ -38,6 +40,6 @@ public:
 protected:
 	UAimingComponent* TankAimingComponent;
 	UPROPERTY(EditAnywhere)
-	float launchSpeed = 100000; // speed of 1000 m/s TODO: find sensible value
+	float launchSpeed = 10000; // speed of 1000 m/s TODO: find sensible value
 
 };

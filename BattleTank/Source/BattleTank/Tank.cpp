@@ -3,7 +3,7 @@
 
 #include "BattleTank.h"
 #include "Tank.h"
-
+#include "AimingComponent.h"
 
 // Sets default values
 ATank::ATank()

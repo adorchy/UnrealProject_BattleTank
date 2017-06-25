@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "TankBarrel.h"
 #include "Components/ActorComponent.h"
 #include "AimingComponent.generated.h"
 
+class UTankBarrel;
 
 /**
 *
@@ -38,5 +38,5 @@ private:
 	FVector launchVelocity;
 	FVector projectileStartLocation;
 	float collisionRadius;
-	float degreePerSeconds;
+	
 };

@@ -1,7 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Arnaud D_ORCHYMONT
 
 #include "BattleTank.h"
 #include "AimingComponent.h"
+#include "TankBarrel.h"
 
 
 // Sets default values for this component's properties
@@ -13,7 +14,7 @@ UAimingComponent::UAimingComponent() {
 	launchVelocity = { 0.0, 0.0, 0.0 };
 	projectileStartLocation = { 0.0, 0.0, 0.0 };
 	collisionRadius = 0.0;
-	degreePerSeconds = 5.0;
+	
 
 }
 
@@ -56,7 +57,8 @@ void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 			UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s!"), *GetOwner()->GetName(), *AimDirection.ToString(), *Barrel->GetComponentLocation().ToString());
 			MoveBarrel();
 		}
-		else {
+		else 
+		{
 			UE_LOG(LogTemp, Warning, TEXT("Error with function SuggestProjectileVelocity in AimingComponent.ccp, wrong arguments used"));
 		}
 	}
@@ -76,6 +78,7 @@ void UAimingComponent::MoveBarrel() {
 	FRotator barrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator aimRotator = launchVelocity.Rotation();
 	FRotator deltaRotator = aimRotator - barrelRotator;
-	Barrel->elevateBarrel(degreePerSeconds);
+	Barrel->elevateBarrel(deltaRotator.Pitch);
+	
 
 }
