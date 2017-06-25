@@ -49,7 +49,7 @@ void ATankAIController::GetPlayerTankLocation() {
 		UE_LOG(LogTemp, Warning, TEXT("Error in TankAIController.cpp: AI can't find player tank!"));
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("AI has found player tank: %s!"), *playerTank->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("AI has found player tank: %s!"), *playerTank->GetName());
 		playerTankLocation = playerTank->GetTargetLocation();
 		controlledTank->AimAt(playerTankLocation); // AimAt is a procedure declared in Tank.h
 	}

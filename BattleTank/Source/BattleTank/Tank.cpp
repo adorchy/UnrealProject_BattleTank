@@ -35,15 +35,19 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+// used by TankAIController.h and TankPlayerController.h rely on the procedure AimAt declared in AimingComponent.h.
 void ATank::AimAt(FVector hitLocation)
 {
 	TankAimingComponent->AimAt(hitLocation, launchSpeed);
-	
 }
 
+// used in Tank_BP
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
-
-
 }
 
+// used in Tank_BP
+void ATank::SetTurretReference(UTankTurret* TurrelToSet) {
+	TankAimingComponent->SetTurretReference(TurrelToSet);
+
+}

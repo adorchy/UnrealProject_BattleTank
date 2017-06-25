@@ -17,6 +17,9 @@ private:
 	float maxDegreesPerSecond;
 	float maxElevationDegrees;
 	float minElevationDegrees;
+	float elevationChange;
+	float barrelNewPitchValue;
+	float barrelNewPitchValueClamped;
 
 public:
 	UTankBarrel();

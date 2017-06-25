@@ -3,6 +3,7 @@
 #include "BattleTank.h"
 #include "AimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 
 
 // Sets default values for this component's properties
@@ -11,11 +12,10 @@ UAimingComponent::UAimingComponent() {
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 	Barrel = nullptr;
+	Turret = nullptr;
 	launchVelocity = { 0.0, 0.0, 0.0 };
 	projectileStartLocation = { 0.0, 0.0, 0.0 };
 	collisionRadius = 0.0;
-	
-
 }
 
 
@@ -32,10 +32,10 @@ void UAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 }
 
-
+//Compute launchVelocity
 void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 
-	if (Barrel) {
+	if (Barrel && Turret) {
 		projectileStartLocation = Barrel->GetSocketLocation(FName("Muzzle"));
 		// UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s!"), *GetOwner()->GetName(), *hitLocation.ToString(), *Barrel->GetComponentLocation().ToString());
 
@@ -53,9 +53,12 @@ void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 		) == true)
 
 		{
+			/* 
 			auto AimDirection = launchVelocity.GetSafeNormal(); // Gets a normalized copy of the vector
 			UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s!"), *GetOwner()->GetName(), *AimDirection.ToString(), *Barrel->GetComponentLocation().ToString());
+			*/ 
 			MoveBarrel();
+			MoveTurret();
 		}
 		else 
 		{
@@ -63,13 +66,19 @@ void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 		}
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("Error no Barrel found, check Tank_BP:Imput Setup"));
+		UE_LOG(LogTemp, Warning, TEXT("Error no Barrel or Turrel found, check Tank_BP:Imput Setup"));
 	}
 }
 
-
+// used in Tank_BP
 void UAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	Barrel = BarrelToSet;
+}
+
+// used in Tank_BP
+void UAimingComponent::SetTurretReference(UTankTurret* TurrelToSet) {
+	Turret = TurrelToSet;
+
 }
 
 void UAimingComponent::MoveBarrel() {
@@ -79,6 +88,13 @@ void UAimingComponent::MoveBarrel() {
 	FRotator aimRotator = launchVelocity.Rotation();
 	FRotator deltaRotator = aimRotator - barrelRotator;
 	Barrel->elevateBarrel(deltaRotator.Pitch);
-	
+
+}
+
+void UAimingComponent::MoveTurret() {
+	FRotator turretRotator = Turret->GetForwardVector().Rotation();
+	FRotator aimRotator = launchVelocity.Rotation();
+	FRotator deltaRotator = aimRotator- turretRotator;
+	Turret->rotateTurret(deltaRotator.Yaw);
 
 }

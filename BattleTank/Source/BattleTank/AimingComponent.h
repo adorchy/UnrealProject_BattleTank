@@ -6,6 +6,7 @@
 #include "AimingComponent.generated.h"
 
 class UTankBarrel;
+class UTankTurret;
 
 /**
 *
@@ -30,11 +31,14 @@ public:
 
 	void AimAt(FVector hitLocation, float launchSpeed);
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
+	void SetTurretReference(UTankTurret* TurrelToSet);
 	void MoveBarrel();
+	void MoveTurret();
 
 private:
 
-	UTankBarrel* Barrel;
+	UTankBarrel* Barrel; // Pointer initialized in Tank_BP (Imput Setup)
+	UTankTurret* Turret; // Pointer initialized in Tank_BP (Imput Setup)
 	FVector launchVelocity;
 	FVector projectileStartLocation;
 	float collisionRadius;
