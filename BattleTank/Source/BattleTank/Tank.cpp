@@ -4,6 +4,8 @@
 #include "BattleTank.h"
 #include "Tank.h"
 #include "AimingComponent.h"
+#include "TankBarrel.h"
+#include "Projectile.h"
 
 // Sets default values
 ATank::ATank()
@@ -11,7 +13,7 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	TankAimingComponent = CreateDefaultSubobject<UAimingComponent>(FName ("Aiming Component")); // add the UAiming component class to the tank bluebrint class.
-
+	Barrel = nullptr; 
 }
 
 // Called when the game starts or when spawned
@@ -44,6 +46,7 @@ void ATank::AimAt(FVector hitLocation)
 // used in Tank_BP
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	Barrel = BarrelToSet;
 }
 
 // used in Tank_BP
@@ -54,6 +57,15 @@ void ATank::SetTurretReference(UTankTurret* TurrelToSet) {
 
 void ATank::Fire() {
 
-	UE_LOG(LogTemp, Warning, TEXT("Tank is firing!"));
+	if (Barrel) {
+		UE_LOG(LogTemp, Warning, TEXT("Tank is firing!"));
+		GetWorld()->SpawnActor<AProjectile>(projectileBluePrint, Barrel->GetSocketLocation(FName("Muzzle")), FRotator::ZeroRotator);
+	} 
+	else 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Error: Barrel pointer is null, see Tank.h"));
+	}
+
+	
 
 }
