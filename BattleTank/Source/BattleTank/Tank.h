@@ -21,6 +21,8 @@ class BATTLETANK_API ATank : public APawn
 	GENERATED_BODY()
 
 	UTankBarrel* Barrel; //// local barrel reference for spawning projectile
+	float reloadTime; 
+	float lastFireTime;
 
 public:	
 	ATank(); // Sets default values for this pawn's properties
@@ -39,7 +41,9 @@ public:
 protected:
 	virtual void BeginPlay() override; // Called when the game starts or when spawned
 	UAimingComponent* TankAimingComponent;
-	UPROPERTY(EditAnywhere, Category = Firing)
+	
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float launchSpeed = 10000; // speed of 1000 m/s TODO: find sensible value
 	UPROPERTY(EditAnywhere, Category = Setup)
 		TSubclassOf<AProjectile> projectileBluePrint;

@@ -28,7 +28,6 @@ public:
 	ATankAIController();
 	ATank* GetControlledTank() const;
 	ATank* GetPlayerTank() const;
-	void GetPlayerTankLocation();
 
 private:
 	ATank* controlledTank;

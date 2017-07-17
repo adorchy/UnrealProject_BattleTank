@@ -18,8 +18,10 @@ void ATankAIController::BeginPlay() {
 	if (!controlledTank) {
 		UE_LOG(LogTemp, Warning, TEXT("Error in TankAIController.cpp: no tank controlled!"));
 	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("AI is controlling %s!"), *controlledTank->GetName());
+
+	playerTank = GetPlayerTank();
+	if (!playerTank) {
+		UE_LOG(LogTemp, Warning, TEXT("Error in TankAIController.cpp: AI can't find player tank!"));
 	}
 }
 
@@ -27,9 +29,13 @@ void ATankAIController::BeginPlay() {
 void ATankAIController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
-	GetPlayerTankLocation();
-}
+	if (playerTank && controlledTank) {
+		playerTankLocation = playerTank->GetTargetLocation();
+		controlledTank->AimAt(playerTankLocation);
+		controlledTank->Fire();
+		}
 
+}
 
 
 ATank* ATankAIController::GetControlledTank() const {
@@ -43,15 +49,4 @@ ATank* ATankAIController::GetPlayerTank() const {
 
 }
 
-void ATankAIController::GetPlayerTankLocation() {
-	playerTank=GetPlayerTank();
-	if (!playerTank) {
-		UE_LOG(LogTemp, Warning, TEXT("Error in TankAIController.cpp: AI can't find player tank!"));
-	}
-	else {
-		//UE_LOG(LogTemp, Warning, TEXT("AI has found player tank: %s!"), *playerTank->GetName());
-		playerTankLocation = playerTank->GetTargetLocation();
-		controlledTank->AimAt(playerTankLocation); // AimAt is a procedure declared in Tank.h
-	}
-}
 
