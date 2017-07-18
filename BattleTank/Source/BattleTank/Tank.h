@@ -9,6 +9,8 @@
 class UAimingComponent;
 class AProjectile;
 class UTankBarrel;
+class UTankMovementComponent;
+
 
 /*
 Class Tank, uses the class AimingComponent and is used by Tank_BP as parent class.
@@ -42,6 +44,8 @@ protected:
 	virtual void BeginPlay() override; // Called when the game starts or when spawned
 	UAimingComponent* TankAimingComponent;
 	
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float launchSpeed = 10000; // speed of 1000 m/s TODO: find sensible value
