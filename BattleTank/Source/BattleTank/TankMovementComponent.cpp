@@ -9,17 +9,34 @@
 UTankMovementComponent::UTankMovementComponent() {
 	rightTrack = nullptr;
 	leftTrack = nullptr;
-
 }
 
-/*
-void UTankMovementComponent::setTracksReference(UTankTrack* rightTrackToSet, UTankTrack* leftTrackToSet) {
-rightTrack = rightTrackToSet;
-leftTrack = leftTrackToSet;
-}*/
 
+void UTankMovementComponent::setTracksReference(UTankTrack* rightTrackToSet, UTankTrack* leftTrackToSet) { 
+		rightTrack = rightTrackToSet;
+		leftTrack = leftTrackToSet;
+}
 
 void UTankMovementComponent::intendMoveForward(float Throw) {
-	UE_LOG(LogTemp, Warning, TEXT("Intend move forward: %f"), Throw);
 
+	if (rightTrack && leftTrack) {
+		rightTrack->setThrottle(Throw);
+		leftTrack->setThrottle(Throw);
+	}
+}
+
+void UTankMovementComponent::intendTurnRight(float Throw) {
+
+	if (rightTrack && leftTrack) {
+		rightTrack->setThrottle(-Throw);
+		leftTrack->setThrottle(Throw);
+	}
+}
+
+void UTankMovementComponent::intendTurnLeft(float Throw) {
+
+	if (rightTrack && leftTrack) {
+		rightTrack->setThrottle(Throw);
+		leftTrack->setThrottle(-Throw);
+	}
 }
