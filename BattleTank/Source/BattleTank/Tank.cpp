@@ -6,14 +6,13 @@
 #include "AimingComponent.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
-#include "TankMovementComponent.h"
 
 
 // Sets default values
 ATank::ATank() {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	TankAimingComponent = CreateDefaultSubobject<UAimingComponent>(FName("Aiming Component")); // add the UAiming component class to the tank bluebrint class.
+	//TankAimingComponent = CreateDefaultSubobject<UAimingComponent>(FName("Aiming Component")); // add the UAiming component class to the tank bluebrint class.
 
 	Barrel = nullptr;
 	reloadTime = 3.0;
@@ -40,20 +39,16 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 
 // used by TankAIController.h and TankPlayerController.h rely on the procedure AimAt declared in AimingComponent.h.
 void ATank::AimAt(FVector hitLocation) {
-	TankAimingComponent->AimAt(hitLocation, launchSpeed);
+	if (TankAimingComponent) {
+		TankAimingComponent->AimAt(hitLocation, launchSpeed);
+	}
+	else {
+
+		UE_LOG(LogTemp, Warning, TEXT("Error: no aiming component, tank unable to aim, see Tank.h"));
+	}
+	
 }
 
-// used in Tank_BP
-void ATank::SetBarrelReference(UTankBarrel* BarrelToSet) {
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-	Barrel = BarrelToSet;
-}
-
-// used in Tank_BP
-void ATank::SetTurretReference(UTankTurret* TurrelToSet) {
-	TankAimingComponent->SetTurretReference(TurrelToSet);
-
-}
 
 void ATank::Fire() {
 

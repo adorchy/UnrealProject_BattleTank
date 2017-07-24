@@ -33,6 +33,18 @@ void UAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 }
 
+
+// used in Tank_BP and in tank.cpp
+void UAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
+	// test
+		Barrel = BarrelToSet;
+}
+
+// used in Tank_BP and in tank.cpp
+void UAimingComponent::SetTurretReference(UTankTurret* TurrelToSet) {
+		Turret = TurrelToSet;
+}
+
 //Compute launchVelocity
 void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 
@@ -70,30 +82,16 @@ void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 	}
 }
 
-// used in Tank_BP and in tank.cpp
-void UAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
-	if (BarrelToSet != nullptr) {
-		Barrel = BarrelToSet;
-	}
-	
-}
-
-// used in Tank_BP and in tank.cpp
-void UAimingComponent::SetTurretReference(UTankTurret* TurrelToSet) {
-	if (TurrelToSet != nullptr) {
-		Turret = TurrelToSet;
-	}
-	
-
-}
 
 void UAimingComponent::MoveBarrelAndTurret() {
 	
+	if (Barrel && Turret) {
+
 	/* Work-out difference between current barrel direction and aim direction*/
 	FRotator barrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator aimRotator = launchVelocity.Rotation();
 	FRotator deltaRotator = aimRotator - barrelRotator;
-
+	/*
 	if (deltaRotator.Yaw == 0.0 &&
 		deltaRotator.Pitch == 0.0 &&
 		tankFiringState != EFiringState::isReloading
@@ -108,10 +106,11 @@ void UAimingComponent::MoveBarrelAndTurret() {
 	{
 		tankFiringState = EFiringState::isBarrelMoving;
 
-	}
+	}*/
 
 	Barrel->elevateBarrel(deltaRotator.Pitch);
 	Turret->rotateTurret(deltaRotator.Yaw);
+	}
 
 }
 

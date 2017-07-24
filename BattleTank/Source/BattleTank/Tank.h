@@ -33,10 +33,6 @@ public:
 	
 	void AimAt(FVector hitLocation); // used by TankAIController.h and TankPlayerController.h rely on the procedure AimAt declared in AimingComponent.h.
 	
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelToSet); // used in Tank_BP
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UTankTurret* TurrelToSet); // used in Tank_BP
 	UFUNCTION(BlueprintCallable, Category = Firing)
 	void Fire();
 	
