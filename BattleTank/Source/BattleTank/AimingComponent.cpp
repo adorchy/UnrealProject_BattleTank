@@ -4,6 +4,7 @@
 #include "AimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
 
 
 // Sets default values for this component's properties
@@ -17,6 +18,9 @@ UAimingComponent::UAimingComponent() {
 	projectileStartLocation = { 0.0, 0.0, 0.0 };
 	collisionRadius = 0.0;
 	tankFiringState = EFiringState::isBarrelMoving;
+	reloadTime = 3.0;
+	lastFireTime = 0.0;
+	projectileLaunchSpeed = 10000;
 }
 
 
@@ -112,5 +116,22 @@ void UAimingComponent::MoveBarrelAndTurret() {
 	Turret->rotateTurret(deltaRotator.Yaw);
 	}
 
+}
+
+
+void UAimingComponent::Fire() {
+	if (Barrel) {
+		if ((lastFireTime + reloadTime) < GetWorld()->GetTimeSeconds()) {
+
+
+			//UE_LOG(LogTemp, Warning, TEXT("Tank is firing!"));
+			auto projectile = GetWorld()->SpawnActor<AProjectile>(projectileBluePrint, Barrel->GetSocketLocation(FName("Muzzle")), Barrel->GetSocketRotation(FName("Muzzle")));
+			projectile->launchProjectile(projectileLaunchSpeed);
+			lastFireTime = GetWorld()->GetTimeSeconds();
+		}
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Error: Barrel pointer is null, see Tank.h"));
+	}
 }
 

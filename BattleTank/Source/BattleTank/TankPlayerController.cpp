@@ -4,10 +4,12 @@
 #include "BattleTank.h"
 #include "TankPlayerController.h"
 #include "Tank.h"
+#include "AimingComponent.h"
 
 
 ATankPlayerController::ATankPlayerController() {
 	ControlledTank = nullptr;
+	tankAimingComponent = nullptr;
 	ViewPointLocation = { 0.0,0.0,0.0 };
 	ViewPointDirection = { 0.0,0.0,0.0 };
 	LineTraceEnd = { 0.0,0.0,0.0 };
@@ -20,11 +22,17 @@ ATankPlayerController::ATankPlayerController() {
 // Called when the game starts
 void ATankPlayerController::BeginPlay() {
 	Super::BeginPlay();
+	
 	ControlledTank=GetControlledTank();
 	if (!ControlledTank) {
 		UE_LOG(LogTemp, Warning, TEXT("Error in TankPlayerController.cpp: no tank controlled!"));
 	} else {
-		UE_LOG(LogTemp, Warning, TEXT("you are controlling %s!"), *ControlledTank->GetName());
+		UE_LOG(LogTemp, Warning, TEXT("you are controlling %s!"), *ControlledTank->GetName())
+			tankAimingComponent = ControlledTank->FindComponentByClass<UAimingComponent>();
+	}
+	
+	if (tankAimingComponent) {
+		FoundAimingComponent(tankAimingComponent);
 	}
 	ComputeCrossHairPosition();
 }
@@ -34,8 +42,9 @@ void ATankPlayerController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
 	if (LineTrace() == true) {
-		if (ControlledTank) {
-			GetControlledTank()->AimAt(hitResult.Location); // AimAt is a procedure declared in Tank.h
+		if (tankAimingComponent) {
+			tankAimingComponent->AimAt(hitResult.Location, 10000);
+			//GetControlledTank()->AimAt(hitResult.Location); // AimAt is a procedure declared in Tank.h
 		}
 	}	
 }
@@ -44,6 +53,7 @@ ATank* ATankPlayerController::GetControlledTank() const {
 
 	return Cast <ATank>(GetPawn());
 }
+
 
 /*
 PURPOSE: Compute crossHair Position, in our case, crossHair is positionned middle of Viewport's width (X) and 

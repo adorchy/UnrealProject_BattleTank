@@ -3,6 +3,7 @@
 #include "BattleTank.h"
 #include "TankAIController.h"
 #include "Tank.h"
+#include "AimingComponent.h"
 
 
 
@@ -36,7 +37,8 @@ void ATankAIController::Tick(float DeltaTime) {
 
 		// Fire
 		playerTankLocation = playerTank->GetTargetLocation();
-		controlledTank->AimAt(playerTankLocation);
+		//controlledTank->AimAt(playerTankLocation);
+		controlledTank->FindComponentByClass<UAimingComponent>()->AimAt(playerTankLocation, 10000);
 		//controlledTank->Fire();
 		}
 

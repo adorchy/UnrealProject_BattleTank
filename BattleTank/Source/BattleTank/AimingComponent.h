@@ -16,6 +16,7 @@ enum class EFiringState : uint8 {
 
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 /**
 *
@@ -35,6 +36,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 		EFiringState tankFiringState;
 
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		TSubclassOf<AProjectile> projectileBluePrint;
+
 public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -46,6 +50,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void SetTurretReference(UTankTurret* TurrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+		void Fire();
+
 	/*
 	*
 	*/
@@ -60,6 +68,9 @@ private:
 	FVector launchVelocity;
 	FVector projectileStartLocation;
 	float collisionRadius;
+	float reloadTime;
+	float lastFireTime;
+	float projectileLaunchSpeed;
 
 	
 };

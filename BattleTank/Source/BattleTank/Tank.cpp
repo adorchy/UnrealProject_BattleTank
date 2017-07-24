@@ -15,8 +15,7 @@ ATank::ATank() {
 	//TankAimingComponent = CreateDefaultSubobject<UAimingComponent>(FName("Aiming Component")); // add the UAiming component class to the tank bluebrint class.
 
 	Barrel = nullptr;
-	reloadTime = 3.0;
-	lastFireTime = 0.0;
+
 }
 
 // Called when the game starts or when spawned
@@ -37,6 +36,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 
 }
 
+/*
 // used by TankAIController.h and TankPlayerController.h rely on the procedure AimAt declared in AimingComponent.h.
 void ATank::AimAt(FVector hitLocation) {
 	if (TankAimingComponent) {
@@ -47,26 +47,5 @@ void ATank::AimAt(FVector hitLocation) {
 		UE_LOG(LogTemp, Warning, TEXT("Error: no aiming component, tank unable to aim, see Tank.h"));
 	}
 	
-}
+}*/
 
-
-void ATank::Fire() {
-
-	if (Barrel) {
-		if ((lastFireTime + reloadTime) < GetWorld()->GetTimeSeconds()){
-
-
-		//UE_LOG(LogTemp, Warning, TEXT("Tank is firing!"));
-		auto projectile = GetWorld()->SpawnActor<AProjectile>(projectileBluePrint, Barrel->GetSocketLocation(FName("Muzzle")), Barrel->GetSocketRotation(FName("Muzzle")));
-		projectile->launchProjectile(launchSpeed);
-		lastFireTime = GetWorld()->GetTimeSeconds(); 
-		}
-	} 
-	else 
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Error: Barrel pointer is null, see Tank.h"));
-	}
-
-	
-
-}

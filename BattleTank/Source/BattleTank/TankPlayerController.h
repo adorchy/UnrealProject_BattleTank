@@ -6,7 +6,9 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
+class UAimingComponent;
 class ATank;
+
 
 /*
 Class TankPlayerController, rely on "Tank" class and used by TankPlayerController_BP as parent class.
@@ -25,6 +27,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		ATank* GetControlledTank() const;
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+		void FoundAimingComponent(UAimingComponent* myAimingComponent);
 
 public:
 	ATankPlayerController();
@@ -39,6 +44,7 @@ public:
 	
 private:
 	ATank* ControlledTank;
+	UAimingComponent* tankAimingComponent;
 	FVector ViewPointLocation;
 	FVector ViewPointDirection;
 	FVector LineTraceEnd;

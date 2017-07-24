@@ -19,7 +19,7 @@ protected:
 
 public:
 	UTankTrack();
-	UFUNCTION(BlueprintCallable, Category = Input)
+	UFUNCTION(BlueprintCallable, Category = "Input")
 		void setThrottle(float throttle);
 	
 	
