@@ -9,6 +9,22 @@
 UTankMovementComponent::UTankMovementComponent() {
 	rightTrack = nullptr;
 	leftTrack = nullptr;
+	tankOrientation = { 0.0, 0.0, 0.0 };
+	tankDirectionIntention = { 0.0, 0.0, 0.0 };
+}
+
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) {
+
+	// no need to call super as we're replacing the functionnality
+
+	tankOrientation = GetOwner()->GetActorForwardVector().SafeNormal();
+	tankDirectionIntention = MoveVelocity.SafeNormal();
+
+	UE_LOG(LogTemp, Warning, TEXT("Tank: %s - Velocity: %s"), *GetOwner()->GetName(), *tankDirectionIntention.ToString());
+	auto tankDirection = FVector::DotProduct(tankOrientation, tankDirectionIntention);
+	intendMoveForward(tankDirection);
+	
 }
 
 

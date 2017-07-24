@@ -17,9 +17,13 @@ class BATTLETANK_API UTankMovementComponent : public UNavMovementComponent
 
 	UTankTrack* rightTrack;
 	UTankTrack* leftTrack;
+	FVector tankOrientation;
+	FVector tankDirectionIntention;
 
 public:
 	UTankMovementComponent();
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void setTracksReference(UTankTrack* rightTrackToSet, UTankTrack* leftTrackToSet);
 
@@ -31,5 +35,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Input)
 		void intendTurnLeft(float Throw);
+
+
 
 };

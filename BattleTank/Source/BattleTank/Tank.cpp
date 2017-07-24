@@ -61,7 +61,7 @@ void ATank::Fire() {
 		if ((lastFireTime + reloadTime) < GetWorld()->GetTimeSeconds()){
 
 
-		UE_LOG(LogTemp, Warning, TEXT("Tank is firing v2!"));
+		//UE_LOG(LogTemp, Warning, TEXT("Tank is firing!"));
 		auto projectile = GetWorld()->SpawnActor<AProjectile>(projectileBluePrint, Barrel->GetSocketLocation(FName("Muzzle")), Barrel->GetSocketRotation(FName("Muzzle")));
 		projectile->launchProjectile(launchSpeed);
 		lastFireTime = GetWorld()->GetTimeSeconds(); 
