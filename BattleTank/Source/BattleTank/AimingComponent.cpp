@@ -16,6 +16,7 @@ UAimingComponent::UAimingComponent() {
 	launchVelocity = { 0.0, 0.0, 0.0 };
 	projectileStartLocation = { 0.0, 0.0, 0.0 };
 	collisionRadius = 0.0;
+	tankFiringState = EFiringState::isBarrelMoving;
 }
 
 
@@ -92,6 +93,23 @@ void UAimingComponent::MoveBarrelAndTurret() {
 	FRotator barrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator aimRotator = launchVelocity.Rotation();
 	FRotator deltaRotator = aimRotator - barrelRotator;
+
+	if (deltaRotator.Yaw == 0.0 &&
+		deltaRotator.Pitch == 0.0 &&
+		tankFiringState != EFiringState::isReloading
+		) {
+
+		tankFiringState = EFiringState::isReady;
+
+	} 
+	else if (tankFiringState != EFiringState::isReloading &&
+		tankFiringState != EFiringState::isReloading) 
+	
+	{
+		tankFiringState = EFiringState::isBarrelMoving;
+
+	}
+
 	Barrel->elevateBarrel(deltaRotator.Pitch);
 	Turret->rotateTurret(deltaRotator.Yaw);
 

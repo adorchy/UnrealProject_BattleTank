@@ -42,6 +42,8 @@ public:
 	
 protected:
 	virtual void BeginPlay() override; // Called when the game starts or when spawned
+
+	UPROPERTY(BlueprintReadOnly)
 	UAimingComponent* TankAimingComponent;
 	
 	UPROPERTY(BlueprintReadOnly)

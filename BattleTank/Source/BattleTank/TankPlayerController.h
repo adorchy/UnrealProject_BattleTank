@@ -23,10 +23,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		ATank* GetControlledTank() const;
+
 public:
 	ATankPlayerController();
 	virtual void Tick(float DeltaTime) override; // Called every frame
-	ATank* GetControlledTank() const;
 	void ComputeCrossHairPosition();
 	void ComputeViewPointDirection();
 	void ComputeViewPointLocation();

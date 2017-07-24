@@ -32,12 +32,12 @@ void ATankAIController::Tick(float DeltaTime) {
 	if (playerTank && controlledTank) {
 
 		//Movement
-		MoveToActor(playerTank, 100); // stay at least at 100 m from player Tank
+		MoveToActor(playerTank, 1000); // stay at least at 100 m from player Tank
 
 		// Fire
 		playerTankLocation = playerTank->GetTargetLocation();
 		controlledTank->AimAt(playerTankLocation);
-		controlledTank->Fire();
+		//controlledTank->Fire();
 		}
 
 }

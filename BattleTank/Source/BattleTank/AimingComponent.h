@@ -5,6 +5,15 @@
 #include "Components/ActorComponent.h"
 #include "AimingComponent.generated.h"
 
+//enum for aiming state
+UENUM()
+enum class EFiringState : uint8 {
+	isReloading,
+	isBarrelMoving,
+	isReady
+};
+
+
 class UTankBarrel;
 class UTankTurret;
 
@@ -22,6 +31,9 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+		EFiringState tankFiringState;
 
 public:
 	// Called every frame
@@ -42,5 +54,6 @@ private:
 	FVector launchVelocity;
 	FVector projectileStartLocation;
 	float collisionRadius;
+
 	
 };
