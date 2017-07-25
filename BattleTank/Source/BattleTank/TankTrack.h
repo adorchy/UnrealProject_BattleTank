@@ -19,6 +19,7 @@ protected:
 
 public:
 	UTankTrack();
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UFUNCTION(BlueprintCallable, Category = "Input")
 		void setThrottle(float throttle);
 	
