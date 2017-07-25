@@ -25,13 +25,11 @@ UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UAimingComponent : public UActorComponent {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this component's properties
-	UAimingComponent();
+
 
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+	
+	virtual void BeginPlay() override; // Called when the game starts
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 		EFiringState tankFiringState;
@@ -40,11 +38,6 @@ protected:
 		TSubclassOf<AProjectile> projectileBluePrint;
 
 public:
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-public:
-
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void SetBarrelReference(UTankBarrel* BarrelToSet);
 
@@ -53,10 +46,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 		void Fire();
-
 	/*
 	*
 	*/
+	UAimingComponent(); // Sets default values for this component's properties
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override; // Called every frame
 	void AimAt(FVector hitLocation, float launchSpeed);
 	void MoveBarrelAndTurret();
 
@@ -71,6 +65,5 @@ private:
 	float reloadTime;
 	float lastFireTime;
 	float projectileLaunchSpeed;
-
 	
 };

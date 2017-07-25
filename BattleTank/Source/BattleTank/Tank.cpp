@@ -3,9 +3,7 @@
 
 #include "BattleTank.h"
 #include "Tank.h"
-#include "AimingComponent.h"
-#include "TankBarrel.h"
-#include "Projectile.h"
+
 
 
 // Sets default values
@@ -13,8 +11,6 @@ ATank::ATank() {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	//TankAimingComponent = CreateDefaultSubobject<UAimingComponent>(FName("Aiming Component")); // add the UAiming component class to the tank bluebrint class.
-
-	Barrel = nullptr;
 
 }
 
@@ -36,16 +32,4 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 
 }
 
-/*
-// used by TankAIController.h and TankPlayerController.h rely on the procedure AimAt declared in AimingComponent.h.
-void ATank::AimAt(FVector hitLocation) {
-	if (TankAimingComponent) {
-		TankAimingComponent->AimAt(hitLocation, launchSpeed);
-	}
-	else {
-
-		UE_LOG(LogTemp, Warning, TEXT("Error: no aiming component, tank unable to aim, see Tank.h"));
-	}
-	
-}*/
 

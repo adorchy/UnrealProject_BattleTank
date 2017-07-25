@@ -5,7 +5,7 @@
 #include "Tank.h"
 #include "AimingComponent.h"
 
-
+//Depends on movement component via pathfinding system
 
 ATankAIController::ATankAIController() {
 	controlledTank = nullptr;

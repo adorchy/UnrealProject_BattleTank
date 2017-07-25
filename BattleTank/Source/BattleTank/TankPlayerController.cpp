@@ -44,7 +44,6 @@ void ATankPlayerController::Tick(float DeltaTime) {
 	if (LineTrace() == true) {
 		if (tankAimingComponent) {
 			tankAimingComponent->AimAt(hitResult.Location, 10000);
-			//GetControlledTank()->AimAt(hitResult.Location); // AimAt is a procedure declared in Tank.h
 		}
 	}	
 }

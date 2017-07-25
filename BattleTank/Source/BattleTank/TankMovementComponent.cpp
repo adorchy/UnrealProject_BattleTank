@@ -21,7 +21,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	tankOrientation = GetOwner()->GetActorForwardVector().SafeNormal();
 	tankDirectionIntention = MoveVelocity.SafeNormal();
 
-	UE_LOG(LogTemp, Warning, TEXT("Tank: %s - Velocity: %s"), *GetOwner()->GetName(), *tankDirectionIntention.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Tank: %s - Velocity: %s"), *GetOwner()->GetName(), *tankDirectionIntention.ToString());
 	auto forwardSpeed = FVector::DotProduct(tankOrientation, tankDirectionIntention);
 	auto rotationSpeed = FVector::CrossProduct(tankOrientation, tankDirectionIntention);
 

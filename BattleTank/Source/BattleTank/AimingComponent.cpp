@@ -34,6 +34,9 @@ void UAimingComponent::BeginPlay() {
 // Called every frame
 void UAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if ((lastFireTime + reloadTime) < GetWorld()->GetTimeSeconds()) {
+		tankFiringState = EFiringState::isBarrelMoving;
+	}
 
 }
 
@@ -120,14 +123,21 @@ void UAimingComponent::MoveBarrelAndTurret() {
 
 
 void UAimingComponent::Fire() {
-	if (Barrel) {
+	if (ensure(Barrel)) {
 		if ((lastFireTime + reloadTime) < GetWorld()->GetTimeSeconds()) {
 
 
 			//UE_LOG(LogTemp, Warning, TEXT("Tank is firing!"));
 			auto projectile = GetWorld()->SpawnActor<AProjectile>(projectileBluePrint, Barrel->GetSocketLocation(FName("Muzzle")), Barrel->GetSocketRotation(FName("Muzzle")));
+			
+			if (ensure(projectile)) {
 			projectile->launchProjectile(projectileLaunchSpeed);
 			lastFireTime = GetWorld()->GetTimeSeconds();
+			tankFiringState = EFiringState::isReloading;
+			}
+			else {
+				UE_LOG(LogTemp, Warning, TEXT("Error: Projectile pointer is null, see AimingComponent.h"))
+			}
 		}
 	}
 	else {
