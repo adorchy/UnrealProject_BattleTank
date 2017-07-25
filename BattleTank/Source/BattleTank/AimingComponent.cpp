@@ -21,6 +21,10 @@ UAimingComponent::UAimingComponent() {
 	reloadTime = 3.0;
 	lastFireTime = 0.0;
 	projectileLaunchSpeed = 10000;
+	barrelRotator = { 0.0, 0.0, 0.0 };
+	aimRotator = { 0.0, 0.0, 0.0 };
+
+
 }
 
 
@@ -35,9 +39,14 @@ void UAimingComponent::BeginPlay() {
 void UAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if ((lastFireTime + reloadTime) < GetWorld()->GetTimeSeconds()) {
-		tankFiringState = EFiringState::isBarrelMoving;
-	}
+		if (barrelRotator.Equals(aimRotator, 10.0)) {
+			tankFiringState = EFiringState::isReady;
 
+		}
+		else {
+			tankFiringState = EFiringState::isBarrelMoving;
+		}
+	}
 }
 
 
@@ -95,25 +104,9 @@ void UAimingComponent::MoveBarrelAndTurret() {
 	if (Barrel && Turret) {
 
 	/* Work-out difference between current barrel direction and aim direction*/
-	FRotator barrelRotator = Barrel->GetForwardVector().Rotation();
-	FRotator aimRotator = launchVelocity.Rotation();
+	barrelRotator = Barrel->GetForwardVector().Rotation();
+	aimRotator = launchVelocity.Rotation();
 	FRotator deltaRotator = aimRotator - barrelRotator;
-	/*
-	if (deltaRotator.Yaw == 0.0 &&
-		deltaRotator.Pitch == 0.0 &&
-		tankFiringState != EFiringState::isReloading
-		) {
-
-		tankFiringState = EFiringState::isReady;
-
-	} 
-	else if (tankFiringState != EFiringState::isReloading &&
-		tankFiringState != EFiringState::isReloading) 
-	
-	{
-		tankFiringState = EFiringState::isBarrelMoving;
-
-	}*/
 
 	Barrel->elevateBarrel(deltaRotator.Pitch);
 	Turret->rotateTurret(deltaRotator.Yaw);
@@ -124,8 +117,7 @@ void UAimingComponent::MoveBarrelAndTurret() {
 
 void UAimingComponent::Fire() {
 	if (ensure(Barrel)) {
-		if ((lastFireTime + reloadTime) < GetWorld()->GetTimeSeconds()) {
-
+		if (tankFiringState == EFiringState::isReady) {
 
 			//UE_LOG(LogTemp, Warning, TEXT("Tank is firing!"));
 			auto projectile = GetWorld()->SpawnActor<AProjectile>(projectileBluePrint, Barrel->GetSocketLocation(FName("Muzzle")), Barrel->GetSocketRotation(FName("Muzzle")));
@@ -140,8 +132,7 @@ void UAimingComponent::Fire() {
 			}
 		}
 	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Error: Barrel pointer is null, see Tank.h"));
-	}
+
+
 }
 

@@ -27,7 +27,6 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 	intendTurnLeft(-rotationSpeed.Z);
 	intendMoveForward(forwardSpeed);
-	
 }
 
 

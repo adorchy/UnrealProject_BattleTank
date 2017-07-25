@@ -11,7 +11,7 @@ class ATank;
 
 
 /*
-Class TankPlayerController, rely on "Tank" class and used by TankPlayerController_BP as parent class.
+Class TankPlayerController.
 Used to compute the coordinates of the location aimed by the crosshair.
 It uses the procedure "AimAt" declared in Tank.h.
 OUPUT: hitResult

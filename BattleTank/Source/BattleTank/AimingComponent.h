@@ -65,5 +65,7 @@ private:
 	float reloadTime;
 	float lastFireTime;
 	float projectileLaunchSpeed;
+	FRotator barrelRotator;
+	FRotator aimRotator;
 	
 };

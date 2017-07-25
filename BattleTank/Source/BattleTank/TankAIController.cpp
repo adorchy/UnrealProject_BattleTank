@@ -21,6 +21,7 @@ void ATankAIController::BeginPlay() {
 	}
 
 	playerTank = GetPlayerTank();
+
 	if (!playerTank) {
 		UE_LOG(LogTemp, Warning, TEXT("Error in TankAIController.cpp: AI can't find player tank!"));
 	}
@@ -37,9 +38,9 @@ void ATankAIController::Tick(float DeltaTime) {
 
 		// Fire
 		playerTankLocation = playerTank->GetTargetLocation();
-		//controlledTank->AimAt(playerTankLocation);
 		controlledTank->FindComponentByClass<UAimingComponent>()->AimAt(playerTankLocation, 10000);
-		//controlledTank->Fire();
+		controlledTank->FindComponentByClass<UAimingComponent>()->Fire();
+
 		}
 
 }
