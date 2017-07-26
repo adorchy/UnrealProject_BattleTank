@@ -122,7 +122,7 @@ void UAimingComponent::MoveBarrelAndTurret() {
 
 void UAimingComponent::Fire() {
 	if (ensure(Barrel)) {
-		if (tankFiringState == EFiringState::isReady) {
+		if (tankFiringState != EFiringState::isReloading) {
 
 			//UE_LOG(LogTemp, Warning, TEXT("Tank is firing!"));
 			auto projectile = GetWorld()->SpawnActor<AProjectile>(projectileBluePrint, Barrel->GetSocketLocation(FName("Muzzle")), Barrel->GetSocketRotation(FName("Muzzle")));

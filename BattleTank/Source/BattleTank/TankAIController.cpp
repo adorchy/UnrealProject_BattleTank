@@ -17,15 +17,11 @@ ATankAIController::ATankAIController() {
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
 	controlledTank = GetControlledTank();
-	if (!controlledTank) {
-		UE_LOG(LogTemp, Warning, TEXT("Error in TankAIController.cpp: no tank controlled!"));
-	}
-
 	playerTank = GetPlayerTank();
-
-	if (!playerTank) {
-		UE_LOG(LogTemp, Warning, TEXT("Error in TankAIController.cpp: AI can't find player tank!"));
+	if (ensure(controlledTank)) {
+		tankAimingComponent = controlledTank->FindComponentByClass<UAimingComponent>();
 	}
+
 }
 
 // Called every frame
@@ -35,14 +31,18 @@ void ATankAIController::Tick(float DeltaTime) {
 	if (playerTank && controlledTank) {
 
 		//Movement
-		MoveToActor(playerTank, 1000); // stay at least at 100 m from player Tank
+		MoveToActor(playerTank, 8000.0); // stay at least at 100 m from player Tank
 
 		// Fire
 		playerTankLocation = playerTank->GetTargetLocation();
-		controlledTank->FindComponentByClass<UAimingComponent>()->AimAt(playerTankLocation, 10000);
-		controlledTank->FindComponentByClass<UAimingComponent>()->Fire();
-
+		if (ensure(tankAimingComponent)) {
+			tankAimingComponent->AimAt(playerTankLocation, 10000);
+			if (tankAimingComponent->getFiringState() == EFiringState::isReady) {
+				//tankAimingComponent->Fire();
+			}
+			
 		}
+	}
 
 }
 

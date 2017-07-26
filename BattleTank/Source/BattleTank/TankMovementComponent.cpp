@@ -13,7 +13,7 @@ UTankMovementComponent::UTankMovementComponent() {
 	tankDirectionIntention = { 0.0, 0.0, 0.0 };
 }
 
-
+// Called from the pathfinding logic by the AI controllers
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) {
 
 	// no need to call super as we're replacing the functionnality
