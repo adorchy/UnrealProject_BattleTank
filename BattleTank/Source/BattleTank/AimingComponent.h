@@ -53,6 +53,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override; // Called every frame
 	void AimAt(FVector hitLocation, float launchSpeed);
 	void MoveBarrelAndTurret();
+	EFiringState getFiringState() const;
 
 
 private:

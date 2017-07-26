@@ -7,6 +7,7 @@
 #include "TankAIController.generated.h"
 
 class ATank;
+class UAimingComponent;
 
 /*
 Class TankAIController, rely on "Tank" class.
@@ -33,6 +34,7 @@ private:
 	ATank* controlledTank;
 	ATank* playerTank;
 	FVector playerTankLocation;
+	UAimingComponent* tankAimingComponent;
 	
 	
 };

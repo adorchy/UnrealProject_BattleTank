@@ -18,8 +18,8 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 	// no need to call super as we're replacing the functionnality
 
-	tankOrientation = GetOwner()->GetActorForwardVector().SafeNormal();
-	tankDirectionIntention = MoveVelocity.SafeNormal();
+	tankOrientation = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	tankDirectionIntention = MoveVelocity.GetSafeNormal();
 
 	//UE_LOG(LogTemp, Warning, TEXT("Tank: %s - Velocity: %s"), *GetOwner()->GetName(), *tankDirectionIntention.ToString());
 	auto forwardSpeed = FVector::DotProduct(tankOrientation, tankDirectionIntention);
@@ -46,6 +46,7 @@ void UTankMovementComponent::intendMoveForward(float Throw) {
 void UTankMovementComponent::intendTurnRight(float Throw) {
 
 	if (rightTrack && leftTrack) {
+		
 		rightTrack->setThrottle(-Throw);
 		leftTrack->setThrottle(Throw);
 	}
@@ -54,7 +55,9 @@ void UTankMovementComponent::intendTurnRight(float Throw) {
 void UTankMovementComponent::intendTurnLeft(float Throw) {
 
 	if (rightTrack && leftTrack) {
+	
 		rightTrack->setThrottle(Throw);
 		leftTrack->setThrottle(-Throw);
+
 	}
 }

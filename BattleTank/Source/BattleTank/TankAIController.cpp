@@ -10,6 +10,7 @@
 ATankAIController::ATankAIController() {
 	controlledTank = nullptr;
 	playerTank = nullptr;
+	tankAimingComponent = nullptr;
 	playerTankLocation = { 0.0,0.0,0.0 };
 }
 

@@ -109,9 +109,14 @@ void UAimingComponent::MoveBarrelAndTurret() {
 	FRotator deltaRotator = aimRotator - barrelRotator;
 
 	Barrel->elevateBarrel(deltaRotator.Pitch);
-	Turret->rotateTurret(deltaRotator.Yaw);
-	}
 
+	if (FMath::Abs(deltaRotator.Yaw) < 180) {
+		Turret->rotateTurret(deltaRotator.Yaw);
+	}
+	else {
+		Turret->rotateTurret(-deltaRotator.Yaw);
+	}
+	}
 }
 
 
@@ -136,3 +141,8 @@ void UAimingComponent::Fire() {
 
 }
 
+EFiringState UAimingComponent::getFiringState() const {
+
+	return tankFiringState;
+
+}
