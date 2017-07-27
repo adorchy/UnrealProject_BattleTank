@@ -8,6 +8,7 @@
 //enum for aiming state
 UENUM()
 enum class EFiringState : uint8 {
+	isOutOfAmmo,
 	isReloading,
 	isBarrelMoving,
 	isReady
@@ -36,6 +37,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Setup")
 		TSubclassOf<AProjectile> projectileBluePrint;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Firing")
+		int ammoNumber;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")

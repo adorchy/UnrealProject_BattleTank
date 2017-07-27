@@ -23,7 +23,7 @@ UAimingComponent::UAimingComponent() {
 	projectileLaunchSpeed = 10000;
 	barrelRotator = { 0.0, 0.0, 0.0 };
 	aimRotator = { 0.0, 0.0, 0.0 };
-
+	ammoNumber = 15;
 
 }
 
@@ -38,15 +38,18 @@ void UAimingComponent::BeginPlay() {
 // Called every frame
 void UAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if ((lastFireTime + reloadTime) < GetWorld()->GetTimeSeconds()) {
-		if (barrelRotator.Equals(aimRotator, 10.0)) {
-			tankFiringState = EFiringState::isReady;
+	if (ammoNumber != 0) {
+		if ((lastFireTime + reloadTime) < GetWorld()->GetTimeSeconds()) {
+			if (barrelRotator.Equals(aimRotator, 10.0)) {
+				tankFiringState = EFiringState::isReady;
 
-		}
-		else {
-			tankFiringState = EFiringState::isBarrelMoving;
+			}
+			else {
+				tankFiringState = EFiringState::isBarrelMoving;
+			}
 		}
 	}
+
 }
 
 
@@ -122,7 +125,8 @@ void UAimingComponent::MoveBarrelAndTurret() {
 
 void UAimingComponent::Fire() {
 	if (ensure(Barrel)) {
-		if (tankFiringState != EFiringState::isReloading) {
+		if (tankFiringState != EFiringState::isReloading &&
+			tankFiringState != EFiringState::isOutOfAmmo) {
 
 			//UE_LOG(LogTemp, Warning, TEXT("Tank is firing!"));
 			auto projectile = GetWorld()->SpawnActor<AProjectile>(projectileBluePrint, Barrel->GetSocketLocation(FName("Muzzle")), Barrel->GetSocketRotation(FName("Muzzle")));
@@ -130,10 +134,13 @@ void UAimingComponent::Fire() {
 			if (ensure(projectile)) {
 			projectile->launchProjectile(projectileLaunchSpeed);
 			lastFireTime = GetWorld()->GetTimeSeconds();
-			tankFiringState = EFiringState::isReloading;
+			ammoNumber--;
+			if (ammoNumber == 0) {
+				tankFiringState = EFiringState::isOutOfAmmo;
 			}
 			else {
-				UE_LOG(LogTemp, Warning, TEXT("Error: Projectile pointer is null, see AimingComponent.h"))
+				tankFiringState = EFiringState::isReloading;
+			}
 			}
 		}
 	}
