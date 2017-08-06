@@ -8,7 +8,7 @@
 //Depends on movement component via pathfinding system
 
 ATankAIController::ATankAIController() {
-	controlledTank = nullptr;
+	controlledPawn = nullptr;
 	playerTank = nullptr;
 	tankAimingComponent = nullptr;
 	playerTankLocation = { 0.0,0.0,0.0 };
@@ -16,10 +16,10 @@ ATankAIController::ATankAIController() {
 
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
-	controlledTank = GetControlledTank();
+	controlledPawn = GetControlledTank();
 	playerTank = GetPlayerTank();
-	if (ensure(controlledTank)) {
-		tankAimingComponent = controlledTank->FindComponentByClass<UAimingComponent>();
+	if (ensure(controlledPawn)) {
+		tankAimingComponent = controlledPawn->FindComponentByClass<UAimingComponent>();
 	}
 
 }
@@ -28,17 +28,17 @@ void ATankAIController::BeginPlay() {
 void ATankAIController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
-	if (playerTank && controlledTank) {
+	if (playerTank && controlledPawn) {
 
 		//Movement
-		MoveToActor(playerTank, 8000.0); // stay at least at 100 m from player Tank
+		MoveToActor(playerTank, 8000.0); // stay at least at 8 000 m from player Tank
 
 		// Fire
 		playerTankLocation = playerTank->GetTargetLocation();
 		if (ensure(tankAimingComponent)) {
 			tankAimingComponent->AimAt(playerTankLocation, 10000);
 			if (tankAimingComponent->getFiringState() == EFiringState::isReady) {
-				//tankAimingComponent->Fire();
+				tankAimingComponent->Fire();
 			}
 			
 		}
@@ -47,9 +47,9 @@ void ATankAIController::Tick(float DeltaTime) {
 }
 
 
-ATank* ATankAIController::GetControlledTank() const {
+APawn* ATankAIController::GetControlledTank() const {
 
-	return Cast <ATank>(GetPawn());
+	return GetPawn();
 }
 
 ATank* ATankAIController::GetPlayerTank() const {
