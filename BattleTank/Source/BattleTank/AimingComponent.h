@@ -39,7 +39,7 @@ protected:
 		TSubclassOf<AProjectile> projectileBluePrint;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Firing")
-		int ammoNumber;
+		int32 ammoNumber;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")

@@ -18,12 +18,12 @@ UAimingComponent::UAimingComponent() {
 	projectileStartLocation = { 0.0, 0.0, 0.0 };
 	collisionRadius = 0.0;
 	tankFiringState = EFiringState::isBarrelMoving;
-	reloadTime = 3.0;
+	reloadTime = 0.0;
 	lastFireTime = 0.0;
 	projectileLaunchSpeed = 10000;
 	barrelRotator = { 0.0, 0.0, 0.0 };
 	aimRotator = { 0.0, 0.0, 0.0 };
-	ammoNumber = 15;
+	ammoNumber = 150;
 
 }
 
