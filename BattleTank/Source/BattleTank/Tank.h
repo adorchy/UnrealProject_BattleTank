@@ -20,20 +20,22 @@ class BATTLETANK_API ATank : public APawn
 {
 	GENERATED_BODY()
 
+		
 
 
 public:	
 	ATank(); // Sets default values for this pawn's properties
 	virtual void Tick(float DeltaTime) override; // Called every frame
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override; // Called to bind functionality to input
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override; // called by the engine when damage is dealt
 
 protected:
 	virtual void BeginPlay() override; // Called when the game starts or when spawned
 
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float launchSpeed = 10000; // speed of 1000 m/s TODO: find sensible value
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float tankStartingHP; // speed of 1000 m/s TODO: find sensible value
 
-
-
+private:
+	float tankCurrentHP;
 
 };

@@ -14,6 +14,10 @@ AProjectile::AProjectile()
 	collisionMesh = nullptr;
 	launchBlast = nullptr;
 	impactBlast = nullptr;
+	explosionForce = nullptr;
+	destroyDelay = 5.0;
+	projectileDamage = 10.0;
+
 
 	projectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Movement Component"));
 
@@ -38,8 +42,13 @@ AProjectile::AProjectile()
 		impactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 		impactBlast->bAutoActivate=false;
 	}
-	/**/
+	
 
+	explosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
+	if (ensure(explosionForce)) {
+		explosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+		//explosionForce->bAutoActivate = false;
+	}
 
 }
 
@@ -47,8 +56,9 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	collisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
-	
+	if (ensure(collisionMesh)) {
+		collisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+	}
 	
 }
 
@@ -68,11 +78,31 @@ void AProjectile::launchProjectile(float speed) {
 }
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) {
+	
 	launchBlast->Deactivate();
-
 	impactBlast->Activate();
+	explosionForce->FireImpulse();
+	
+	SetRootComponent(impactBlast); // otherwise ApplyRadialdamage won't be called
+	collisionMesh->DestroyComponent();
 
+	UGameplayStatics::ApplyRadialDamage (
+		this,
+		projectileDamage,
+		GetActorLocation(),
+		explosionForce->Radius, // for consistancy
+		UDamageType::StaticClass(),
+		TArray<AActor*>() // damage all actors
+		
+	); // call AActor::TakeDamage
+	
+	FTimerHandle myTimer;
+	GetWorld()->GetTimerManager().SetTimer<AProjectile>(myTimer, this, &AProjectile::onTimerExpire, destroyDelay);
+	
+}
 
+void AProjectile::onTimerExpire() {
+	Destroy();
 
 }
 

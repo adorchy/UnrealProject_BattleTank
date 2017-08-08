@@ -18,7 +18,7 @@ UAimingComponent::UAimingComponent() {
 	projectileStartLocation = { 0.0, 0.0, 0.0 };
 	collisionRadius = 0.0;
 	tankFiringState = EFiringState::isBarrelMoving;
-	reloadTime = 0.0;
+	reloadTime = 2.0;
 	lastFireTime = 0.0;
 	projectileLaunchSpeed = 10000;
 	barrelRotator = { 0.0, 0.0, 0.0 };
