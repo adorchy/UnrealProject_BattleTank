@@ -13,6 +13,7 @@ ATank::ATank() {
 	//TankAimingComponent = CreateDefaultSubobject<UAimingComponent>(FName("Aiming Component")); // add the UAiming component class to the tank bluebrint class.
 	tankStartingHP = 100;
 	tankCurrentHP = tankStartingHP;
+	tankHealthState = EHealthState::high;
 }
 
 // Called when the game starts or when spawned
@@ -35,9 +36,29 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 
 float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) {
 	float damageToApply = FMath::Clamp<float>(DamageAmount, 0.0, tankCurrentHP);
-	UE_LOG(LogTemp, Warning, TEXT("tank: %s has now %f HP"), *GetName(), tankCurrentHP);
+	//UE_LOG(LogTemp, Warning, TEXT("tank: %s has now %f HP"), *GetName(), tankCurrentHP);
+	tankCurrentHP -= damageToApply;
+	if (tankCurrentHP < 75.0) {
+		if (tankCurrentHP > 25) {
+			tankHealthState = EHealthState::half;
+		}
+		else {
+			tankHealthState = EHealthState::low;
+		}
+	}
+
 	return damageToApply;
 
+}
+
+float ATank::GetHealthPercent() const {
+	return tankCurrentHP / tankStartingHP;
+
+}
+
+EHealthState ATank::getHealthState() const {
+
+	return tankHealthState;
 }
 
 

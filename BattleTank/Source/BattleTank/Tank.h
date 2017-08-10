@@ -6,6 +6,16 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+//enum for aiming state
+UENUM()
+enum class EHealthState : uint8 {
+	low,
+	half,
+	high
+};
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSubjectName);
+
 class UAimingComponent;
 class UTankMovementComponent;
 
@@ -28,14 +38,26 @@ public:
 	virtual void Tick(float DeltaTime) override; // Called every frame
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override; // Called to bind functionality to input
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override; // called by the engine when damage is dealt
+	EHealthState getHealthState() const;
+
+	
+
+
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercent() const;
 
 protected:
 	virtual void BeginPlay() override; // Called when the game starts or when spawned
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		float tankStartingHP; // speed of 1000 m/s TODO: find sensible value
+		float tankStartingHP; 
+
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+		EHealthState tankHealthState;
 
 private:
 	float tankCurrentHP;
+
+
 
 };
