@@ -37,6 +37,20 @@ void ATankPlayerController::BeginPlay() {
 	ComputeCrossHairPosition();
 }
 
+void ATankPlayerController::SetPawn(APawn* InPawn) {
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		auto possessedTank = GetControlledTank();
+
+		if (ensure(possessedTank)) {
+			possessedTank->onTankDeath.AddUniqueDynamic(this, &ATankPlayerController::onTankDeath);
+		}
+	}
+
+}
+
+
+
 // Called every frame
 void ATankPlayerController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
@@ -127,3 +141,8 @@ void ATankPlayerController::DrawRedDebugLineFromCrossHair() {
 }
 
 
+void ATankPlayerController::onTankDeath() {
+
+	UE_LOG(LogTemp, Warning, TEXT("Player control on tank removed"));
+
+}

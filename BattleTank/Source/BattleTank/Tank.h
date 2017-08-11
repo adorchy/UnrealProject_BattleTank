@@ -14,7 +14,7 @@ enum class EHealthState : uint8 {
 	high
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSubjectName);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
 class UAimingComponent;
 class UTankMovementComponent;
@@ -39,8 +39,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override; // Called to bind functionality to input
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override; // called by the engine when damage is dealt
 	EHealthState getHealthState() const;
-
-	
+	FTankDelegate onTankDeath;
 
 
 	UFUNCTION(BlueprintPure, Category = "Health")
@@ -57,6 +56,7 @@ protected:
 
 private:
 	float tankCurrentHP;
+	bool isTankAlive;
 
 
 

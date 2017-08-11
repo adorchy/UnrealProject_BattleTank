@@ -27,14 +27,19 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override; // Called every frame
 	ATankAIController();
-	APawn* GetControlledTank() const;
+	APawn* GetControlledPawn() const;
 	ATank* GetPlayerTank() const;
+
+	UFUNCTION()
+		void onTankDeath();
 
 private:
 	APawn* controlledPawn;
 	ATank* playerTank;
 	FVector playerTankLocation;
 	UAimingComponent* tankAimingComponent;
+
+	virtual void SetPawn(APawn* InPawn) override;
 	
 	
 };

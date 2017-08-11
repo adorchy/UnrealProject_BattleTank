@@ -14,6 +14,7 @@ ATank::ATank() {
 	tankStartingHP = 100;
 	tankCurrentHP = tankStartingHP;
 	tankHealthState = EHealthState::high;
+	isTankAlive = true;
 }
 
 // Called when the game starts or when spawned
@@ -45,6 +46,12 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEv
 		else {
 			tankHealthState = EHealthState::low;
 		}
+	}
+
+	if (tankCurrentHP < 0.5 && isTankAlive == true) {
+		isTankAlive = false;
+		onTankDeath.Broadcast();
+		UE_LOG(LogTemp, Warning, TEXT("Tank has no more HP"));
 	}
 
 	return damageToApply;

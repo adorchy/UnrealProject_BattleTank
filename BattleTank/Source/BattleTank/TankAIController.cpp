@@ -14,12 +14,29 @@ ATankAIController::ATankAIController() {
 	playerTankLocation = { 0.0,0.0,0.0 };
 }
 
+
+
+
+
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
-	controlledPawn = GetControlledTank();
+	controlledPawn = GetControlledPawn();
 	playerTank = GetPlayerTank();
 	if (ensure(controlledPawn)) {
 		tankAimingComponent = controlledPawn->FindComponentByClass<UAimingComponent>();
+		
+	}
+
+}
+
+void ATankAIController::SetPawn(APawn* InPawn) {
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		auto possessedTank = Cast <ATank>(InPawn);
+
+		if (ensure(possessedTank)) {
+			possessedTank->onTankDeath.AddUniqueDynamic(this, &ATankAIController::onTankDeath);
+		}
 	}
 
 }
@@ -47,7 +64,7 @@ void ATankAIController::Tick(float DeltaTime) {
 }
 
 
-APawn* ATankAIController::GetControlledTank() const {
+APawn* ATankAIController::GetControlledPawn() const {
 
 	return GetPawn();
 }
@@ -58,4 +75,10 @@ ATank* ATankAIController::GetPlayerTank() const {
 
 }
 
+
+void ATankAIController::onTankDeath() {
+
+	UE_LOG(LogTemp, Warning, TEXT("AI control on tank removed"));
+	UnPossess();
+}
 

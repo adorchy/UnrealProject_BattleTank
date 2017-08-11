@@ -31,6 +31,7 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 		void FoundAimingComponent(UAimingComponent* myAimingComponent);
 
+
 public:
 	ATankPlayerController();
 	virtual void Tick(float DeltaTime) override; // Called every frame
@@ -41,8 +42,12 @@ public:
 	bool LineTrace();
 	void DrawRedDebugLineFromCrossHair();
 
-	
+	UFUNCTION()
+		void onTankDeath();
+
+
 private:
+	virtual void SetPawn(APawn* InPawn) override;
 	ATank* ControlledTank;
 	UAimingComponent* tankAimingComponent;
 	FVector ViewPointLocation;
