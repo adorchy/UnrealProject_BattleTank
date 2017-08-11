@@ -9,6 +9,7 @@
 //enum for aiming state
 UENUM()
 enum class EHealthState : uint8 {
+	dead,
 	low,
 	half,
 	high

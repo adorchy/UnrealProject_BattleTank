@@ -39,17 +39,20 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEv
 	float damageToApply = FMath::Clamp<float>(DamageAmount, 0.0, tankCurrentHP);
 	//UE_LOG(LogTemp, Warning, TEXT("tank: %s has now %f HP"), *GetName(), tankCurrentHP);
 	tankCurrentHP -= damageToApply;
-	if (tankCurrentHP < 75.0) {
-		if (tankCurrentHP > 25) {
-			tankHealthState = EHealthState::half;
-		}
-		else {
-			tankHealthState = EHealthState::low;
+	if (tankHealthState != EHealthState::dead) {
+		if (tankCurrentHP < 75.0) {
+			if (tankCurrentHP > 25) {
+				tankHealthState = EHealthState::half;
+			}
+			else {
+				tankHealthState = EHealthState::low;
+			}
 		}
 	}
 
 	if (tankCurrentHP < 0.5 && isTankAlive == true) {
 		isTankAlive = false;
+		tankHealthState = EHealthState::dead;
 		onTankDeath.Broadcast();
 		UE_LOG(LogTemp, Warning, TEXT("Tank has no more HP"));
 	}

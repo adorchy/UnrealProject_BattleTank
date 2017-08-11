@@ -126,7 +126,7 @@ bool ATankPlayerController::LineTrace() {
 		OUT hitResult,
 		ViewPointLocation,
 		LineTraceEnd,
-		ECollisionChannel::ECC_Visibility
+		ECollisionChannel::ECC_Camera
 	) == true) {
 		return true;
 	}
@@ -144,5 +144,5 @@ void ATankPlayerController::DrawRedDebugLineFromCrossHair() {
 void ATankPlayerController::onTankDeath() {
 
 	UE_LOG(LogTemp, Warning, TEXT("Player control on tank removed"));
-
+	//StartSpectatingOnly();
 }

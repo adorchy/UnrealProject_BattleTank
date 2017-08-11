@@ -31,7 +31,7 @@ public:
 	ATank* GetPlayerTank() const;
 
 	UFUNCTION()
-		void onTankDeath();
+		void onTankDeath(); // must be a UFUNCTION to be called
 
 private:
 	APawn* controlledPawn;

@@ -14,10 +14,6 @@ ATankAIController::ATankAIController() {
 	playerTankLocation = { 0.0,0.0,0.0 };
 }
 
-
-
-
-
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
 	controlledPawn = GetControlledPawn();
@@ -79,6 +75,9 @@ ATank* ATankAIController::GetPlayerTank() const {
 void ATankAIController::onTankDeath() {
 
 	UE_LOG(LogTemp, Warning, TEXT("AI control on tank removed"));
-	UnPossess();
+	if (ensure(controlledPawn)) {
+		controlledPawn->DetachFromControllerPendingDestroy();
+	}
+	
 }
 

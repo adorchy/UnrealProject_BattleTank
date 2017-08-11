@@ -43,7 +43,7 @@ public:
 	void DrawRedDebugLineFromCrossHair();
 
 	UFUNCTION()
-		void onTankDeath();
+		void onTankDeath(); // must be a UFUNCTION to be called
 
 
 private:

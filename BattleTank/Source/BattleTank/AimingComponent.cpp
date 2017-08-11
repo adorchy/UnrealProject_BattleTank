@@ -145,7 +145,6 @@ void UAimingComponent::Fire() {
 		}
 	}
 
-
 }
 
 EFiringState UAimingComponent::getFiringState() const {
