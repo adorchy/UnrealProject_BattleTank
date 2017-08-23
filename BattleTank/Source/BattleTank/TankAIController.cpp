@@ -20,21 +20,18 @@ void ATankAIController::BeginPlay() {
 	playerTank = GetPlayerTank();
 	if (ensure(controlledPawn)) {
 		tankAimingComponent = controlledPawn->FindComponentByClass<UAimingComponent>();
-		
 	}
-
 }
 
 void ATankAIController::SetPawn(APawn* InPawn) {
 	Super::SetPawn(InPawn);
 	if (InPawn) {
-		auto possessedTank = Cast <ATank>(InPawn);
+		auto possessedTank = Cast <ATank>(InPawn); //TODO: Take into account that tankAIController is also user by Mortars
 
 		if (ensure(possessedTank)) {
 			possessedTank->onTankDeath.AddUniqueDynamic(this, &ATankAIController::onTankDeath);
 		}
 	}
-
 }
 
 // Called every frame
@@ -53,10 +50,8 @@ void ATankAIController::Tick(float DeltaTime) {
 			if (tankAimingComponent->getFiringState() == EFiringState::isReady) {
 				tankAimingComponent->Fire();
 			}
-			
 		}
 	}
-
 }
 
 
@@ -78,6 +73,5 @@ void ATankAIController::onTankDeath() {
 	if (ensure(controlledPawn)) {
 		controlledPawn->DetachFromControllerPendingDestroy();
 	}
-	
 }
 

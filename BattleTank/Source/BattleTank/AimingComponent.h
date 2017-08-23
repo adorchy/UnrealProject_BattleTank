@@ -20,7 +20,10 @@ class UTankTurret;
 class AProjectile;
 
 /**
-*
+*Compute a launch velocity for a projectile to hit a specified point.
+*Compute (use the launch velocity) the rotation required to move the barrel and the turret toward the direction where the player is aiming.
+*Monitores the tank firing state. There is 4 differentes states: "isOutOfAmmo", "isReloading", "isBarrelMoving", "isReady". These states are used to determine the player's aiming reticule color and are also used to determine when AI and player are allowed to fire.
+*Fire a projectile, i.e. spawn and launch an object.
 */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UAimingComponent : public UActorComponent {

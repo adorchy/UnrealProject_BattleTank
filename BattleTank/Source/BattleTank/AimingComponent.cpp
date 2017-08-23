@@ -9,9 +9,7 @@
 
 // Sets default values for this component's properties
 UAimingComponent::UAimingComponent() {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = true; // Set this component to be initialized when the game starts, and to be ticked every frame.  
 	Barrel = nullptr;
 	Turret = nullptr;
 	launchVelocity = { 0.0, 0.0, 0.0 };
@@ -20,11 +18,10 @@ UAimingComponent::UAimingComponent() {
 	tankFiringState = EFiringState::isBarrelMoving;
 	reloadTime = 2.0;
 	lastFireTime = 0.0;
-	projectileLaunchSpeed = 10000;
+	projectileLaunchSpeed = 10000.0;
 	barrelRotator = { 0.0, 0.0, 0.0 };
 	aimRotator = { 0.0, 0.0, 0.0 };
-	ammoNumber = 150;
-
+	ammoNumber = 50;
 }
 
 
@@ -69,7 +66,6 @@ void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 
 	if (Barrel && Turret) {
 		projectileStartLocation = Barrel->GetSocketLocation(FName("Muzzle"));
-		// UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s!"), *GetOwner()->GetName(), *hitLocation.ToString(), *Barrel->GetComponentLocation().ToString());
 
 		if (UGameplayStatics::SuggestProjectileVelocity
 		(
@@ -85,10 +81,8 @@ void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 		) == true)
 
 		{
-			/* 
-			auto AimDirection = launchVelocity.GetSafeNormal(); // Gets a normalized copy of the vector
-			UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s!"), *GetOwner()->GetName(), *AimDirection.ToString(), *Barrel->GetComponentLocation().ToString());
-			*/ 
+			
+			//UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s!"), *GetOwner()->GetName(), *AimDirection.ToString(), *Barrel->GetComponentLocation().ToString());
 			MoveBarrelAndTurret();
 		}
 		else 
@@ -105,25 +99,25 @@ void UAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 void UAimingComponent::MoveBarrelAndTurret() {
 	
 	if (Barrel && Turret) {
-
-	/* Work-out difference between current barrel direction and aim direction*/
-	barrelRotator = Barrel->GetForwardVector().Rotation();
-	aimRotator = launchVelocity.Rotation();
-	FRotator deltaRotator = aimRotator - barrelRotator;
-
-	Barrel->elevateBarrel(deltaRotator.Pitch);
-
-	if (FMath::Abs(deltaRotator.Yaw) < 180) {
-		Turret->rotateTurret(deltaRotator.Yaw);
-	}
-	else {
-		Turret->rotateTurret(-deltaRotator.Yaw);
-	}
+		/* Work-out difference between current barrel direction and aim direction*/
+		barrelRotator = Barrel->GetForwardVector().Rotation();
+		aimRotator = launchVelocity.Rotation();
+		FRotator deltaRotator = aimRotator - barrelRotator;
+		
+		Barrel->elevateBarrel(deltaRotator.Pitch);
+	
+		if (FMath::Abs(deltaRotator.Yaw) < 180) {
+			Turret->rotateTurret(deltaRotator.Yaw);
+		}
+		else {
+			Turret->rotateTurret(-deltaRotator.Yaw);
+		}
 	}
 }
 
 
 void UAimingComponent::Fire() {
+
 	if (ensure(Barrel)) {
 		if (tankFiringState != EFiringState::isReloading &&
 			tankFiringState != EFiringState::isOutOfAmmo) {
@@ -132,19 +126,18 @@ void UAimingComponent::Fire() {
 			auto projectile = GetWorld()->SpawnActor<AProjectile>(projectileBluePrint, Barrel->GetSocketLocation(FName("Muzzle")), Barrel->GetSocketRotation(FName("Muzzle")));
 			
 			if (ensure(projectile)) {
-			projectile->launchProjectile(projectileLaunchSpeed);
-			lastFireTime = GetWorld()->GetTimeSeconds();
-			ammoNumber--;
-			if (ammoNumber == 0) {
-				tankFiringState = EFiringState::isOutOfAmmo;
-			}
-			else {
-				tankFiringState = EFiringState::isReloading;
-			}
+				projectile->launchProjectile(projectileLaunchSpeed);
+				lastFireTime = GetWorld()->GetTimeSeconds();
+				ammoNumber--;
+				if (ammoNumber == 0) {
+					tankFiringState = EFiringState::isOutOfAmmo;
+				}
+				else {
+					tankFiringState = EFiringState::isReloading;
+				}
 			}
 		}
 	}
-
 }
 
 EFiringState UAimingComponent::getFiringState() const {
